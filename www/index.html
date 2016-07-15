@@ -27,18 +27,13 @@
   <div id="loadingDiv">Loading, please wait</div>
 
   <div class="app">
-  
-    <div class="controls">
-      <select id="nid"></select>
-      <button onclick="requestPage();">Request Site Details<span class="icon-send"></span></button>
-    </div>
     
     <div id="pageContent"></div>
     
     <div class="break-border"></div>
     
     <div class="card">
-      <h2 class="title">At a glance</h2>
+      <h2 class="title">Site(s)</h2>
       <div id="glance"></div>
     </div>
     
@@ -78,7 +73,7 @@
     
     function getSiteList(){
       $.ajax({
-        url: 'http://panopticmonitor.com/api/views/users_nodes?args='+localStorage.userID,
+        url: 'http://panoptic.dev-box.com.au/api/views/users_nodes?args='+localStorage.userID,
         method: 'GET',
         crossDomain: true,
         cache: true,
@@ -91,19 +86,13 @@
           var selectList = document.getElementById("nid");
           glanceList = '';
           for (i in viewsData) {
-            tempVal = viewsData[i].site;
-            tempVal = tempVal.split(':');
-            var option = document.createElement("option");
-            option.value = tempVal[0];
-            option.text = tempVal[1];
-            selectList.add(option);
 
             bigString = viewsData[i].decode;
 
             if( bigString.length > 5 ){
-              glanceList += '<div class="glance-item hasupdates status-'+viewsData[i].updown+'">'+tempVal[1]+'<span>'+viewsData[i].updown+'</span></div>';
+              glanceList += '<div onclick="requestPage('+viewsData[i].nid+');" class="glance-item hasupdates status-'+viewsData[i].updown+'">'+viewsData[i].site+'<span>'+viewsData[i].updown+'</span></div>';
             } else {
-              glanceList += '<div class="glance-item noupdates status-'+viewsData[i].updown+'">'+tempVal[1]+'<span>'+viewsData[i].updown+'</span></div>';
+              glanceList += '<div onclick="requestPage('+viewsData[i].nid+');" class="glance-item noupdates status-'+viewsData[i].updown+'">'+viewsData[i].site+'<span>'+viewsData[i].updown+'</span></div>';
             }
           }
           $('#glance').html(glanceList);
@@ -116,10 +105,10 @@
     
     getSiteList();
     
-    function requestPage(){
-      nid = $('#nid').attr('value');
+    function requestPage(nid){
       $.ajax({
-        url: 'http://panopticmonitor.com/api/node/'+nid,
+        //url: 'http://panoptic.dev-box.com.au/api/node/'+nid,
+        url: 'http://panoptic.dev-box.com.au/api/views/node_info?args='+nid,
         method: 'GET',
         crossDomain: true,
         cache: true,
@@ -129,57 +118,39 @@
         },
         success: function (returnData) {
         
+          rawData = returnData;
           rtData = $.parseJSON(returnData);
           
-          htmlString = '';
-          htmlString += '<div class="card">';
-            htmlString += '<h2 class="title">Overview</h2>';
-            htmlString += '<h3>'+rtData.title+'</h3>';
-            htmlString += '<h3><a href="'+rtData.field_app_url.und[0].value+'">'+rtData.field_app_url.und[0].value+'</a></h3>'
-          htmlString += '</div>';
-          
-          modules = jQuery.parseJSON(rtData.field_app_module_decode.und[0].value);
-          
-          if( modules  != null && modules.length > 5 ){
-          
+          for (i in rtData) {
+            
+            htmlString = '';
             htmlString += '<div class="card">';
-              htmlString += '<h2 class="title">Available module updates</h2>';
-              htmlString += '<table class="module-table">';
-                htmlString += '<thead>';
-                  htmlString += '<tr>';
-                    htmlString += '<th>Title</th>';
-                    htmlString += '<th>Existing Ver.</th>';
-                    htmlString += '<th>Latest Ver.</th>';
-                  htmlString += '</tr>';
-                htmlString += '</thead>';
-                htmlString += '<tbody>';
-                  
-                  for (i in modules) {
-                    htmlString += '<tr>';
-                      htmlString += '<td class="cap">' + modules[i].name + '</td>';
-                      htmlString += '<td class="cap">' + modules[i].existing_version + '</td>';
-                      htmlString += '<td class="cap">' + modules[i].latest_version + '</td>';
-                    htmlString += '</tr>';
-                  }
-                  
-                htmlString += '</tbody>';
-              htmlString += '</table>';
+              htmlString += '<h2 class="title">Overview</h2>';
+              htmlString += '<h3>'+rtData[i].node_title+'</h3>';
+              htmlString += '<h3><a href="'+rtData[i].url+'">'+rtData[i].url+'</a></h3>'
             htmlString += '</div>';
             
+            if(rtData[i].modules.length > 10){
+              htmlString += rtData[i].modules;
+            }
+            
+            htmlString += '<div class="card">';
+              htmlString += '<h2 class="title">Response Time</h2><h3 class="description">From this device</h3>';
+              htmlString += '<h3><span class="icon-timer"></span><span id="ping-response"></span> ms</h3>';
+            htmlString += '</div>';
+            
+            htmlString += '<div class="card">';
+              htmlString += '<h2 class="title">Raise issue</h2>';
+              htmlString += '<h3><a href="mailto:Service.Desk@opc.com.au?subject=Issue for '+rtData[i].node_title+'">Compose Email to Support</a></h3>';
+            htmlString += '</div>';
+            
+            $('#pageContent').html(htmlString);
+            
+            var p = new Ping();
+            p.ping(rtData[i].url, function(data) {
+              document.getElementById("ping-response").innerHTML = data;
+            });
           }
-          
-          htmlString += '<div class="card">';
-            htmlString += '<h2 class="title">Response Time</h2>';
-            htmlString += '<h3><span class="icon-timer"></span><span id="ping-response"></span> ms</h3>';
-          htmlString += '</div>';
-          htmlString += '';
-          
-          $('#pageContent').html(htmlString);
-          
-          var p = new Ping();
-          p.ping(rtData.field_app_url.und[0].value, function(data) {
-            document.getElementById("ping-response").innerHTML = data;
-          });
         },
         error: function(){
           $('#pageContent').html('Failed to connect, try again.');

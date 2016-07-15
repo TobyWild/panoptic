@@ -82,7 +82,7 @@
       $.ajax({
       
         // The URL to call
-        url: 'http://panopticmonitor.com/api/system/connect',
+        url: 'http://panoptic.dev-box.com.au/api/system/connect',
         
         // For THIS service call, we need to Post
         type: 'POST',
@@ -141,7 +141,7 @@
       $.ajax({
       
         // The preset OAuth2 URL
-        url: "http://panopticmonitor.com/oauth2/token",
+        url: "http://panoptic.dev-box.com.au/oauth2/token",
         
         // Posting the Data to the service
         type: 'post',
@@ -162,9 +162,13 @@
         
         // If it's successful, we store the Access Token, and then run the getUserID function
         success: function (data) {
+        
+        console.log('yay');
+        
           localStorage.atoken = data.access_token;
           getUserID();
         }
+        
       });
       
       // Otherwise, run false

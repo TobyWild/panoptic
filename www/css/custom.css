@@ -260,12 +260,9 @@ input.input-field {
   border: 1px solid #f0ad4e;
 }
 
-.glance-item.status-,
-.glance-item.status-500, 
-.glance-item.status-503, 
-.glance-item.status-404 {
-  background-color: #f2dede;
-  border: 1px solid #d9534f;
+.glance-item.status-Down {
+  background-color: #f2dede !Important;
+  border: 1px solid #d9534f !Important;
 }
 
 .break-border {
