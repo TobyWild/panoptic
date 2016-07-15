@@ -1,38 +1,22 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="service.opc.com.au" version="1.0.0">
   <name>Panoptic</name>
   <description>View your managed sites.</description>
-  <author href="http://phonegap.com" email="support@phonegap.com">PhoneGap Team</author>
+  <author href="http://opc.com.au" email="servicedesk@phonegap.com">OPC IT</author>
   <content src="index.html"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="android-minSdkVersion" value="14"/>
-  <plugin name="cordova-plugin-battery-status" source="npm"/>
-  <plugin name="cordova-plugin-camera" source="npm"/>
-  <plugin name="cordova-plugin-media-capture" source="npm"/>
-  <plugin name="cordova-plugin-console" source="npm"/>
-  <plugin name="cordova-plugin-contacts" source="npm"/>
   <plugin name="cordova-plugin-device" source="npm"/>
-  <plugin name="cordova-plugin-device-motion" source="npm"/>
-  <plugin name="cordova-plugin-device-orientation" source="npm"/>
   <plugin name="cordova-plugin-dialogs" source="npm"/>
-  <plugin name="cordova-plugin-file" source="npm"/>
-  <plugin name="cordova-plugin-file-transfer" source="npm"/>
-  <plugin name="cordova-plugin-geolocation" source="npm"/>
-  <plugin name="cordova-plugin-globalization" source="npm"/>
   <plugin name="cordova-plugin-inappbrowser" source="npm"/>
-  <plugin name="cordova-plugin-media" source="npm"/>
-  <plugin name="cordova-plugin-network-information" source="npm"/>
-  <plugin name="cordova-plugin-splashscreen" source="npm"/>
-  <plugin name="cordova-plugin-statusbar" source="npm"/>
-  <plugin name="cordova-plugin-vibration" source="npm"/>
   <plugin name="cordova-plugin-whitelist" source="npm"/>
   <icon src="icon.png"/>
   <platform name="android">
-    <icon src="www/res/icon/android/drawable-ldpi-icon.png" density="ldpi"/>
-    <icon src="www/res/icon/android/drawable-mdpi-icon.png" density="mdpi"/>
-    <icon src="www/res/icon/android/drawable-hdpi-icon.png" density="hdpi"/>
-    <icon src="www/res/icon/android/drawable-xhdpi-icon.png" density="xhdpi"/>
-    <icon src="www/res/icon/android/drawable-xxhdpi-icon.png" density="xxhdpi"/>
-    <icon src="www/res/icon/android/drawable-xxxhdpi-icon.png" density="xxxhdpi"/>
+    <icon src="www/res/icon/android/icon-36-ldpi.png" density="ldpi"/>
+    <icon src="www/res/icon/android/icon-48-mdpi.png" density="mdpi"/>
+    <icon src="www/res/icon/android/icon-72-hdpi.png" density="hdpi"/>
+    <icon src="www/res/icon/android/icon-96-xhdpi.png" density="xhdpi"/>
+    <icon src="www/res/icon/android/icon-144-xxhdpi.png" density="xxhdpi"/>
+    <icon src="www/res/icon/android/icon-192-xxxhdpi.png" density="xxxhdpi"/>
     <splash src="www/res/screen/android/drawable-land-ldpi-screen.png" density="land-ldpi"/>
     <splash src="www/res/screen/android/drawable-land-mdpi-screen.png" density="land-mdpi"/>
     <splash src="www/res/screen/android/drawable-land-hdpi-screen.png" density="land-hdpi"/>
